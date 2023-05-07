@@ -9,47 +9,48 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAKcsXA7Bi1x67KN5FgN10SuyIrzdh2EQM"></script>
     <script>
       function initMap() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-            var myLatLng = {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude
-            };
+	if (navigator.geolocation) {
+		navigator.geolocation.getCurrentPosition(function(position) {
+			var myLatLng = {
+				lat: position.coords.latitude,
+				lng: position.coords.longitude
+			};
 
-            var map = new google.maps.Map(document.getElementById('map'), {
-                center: myLatLng,
-                zoom: 14
-            });
+			var map = new google.maps.Map(document.getElementById('map'), {
+				center: myLatLng,
+				zoom: 14
+			});
 
-            var marker = new google.maps.Marker({
-                position: myLatLng,
-                map: map,
-                title: 'My Location'
-            });
+			var marker = new google.maps.Marker({
+				position: myLatLng,
+				map: map,
+				title: 'My Location'
+			});
 
-            // add event listener to the "Register Parking Spot" button
-            document.getElementById('save-location-btn').addEventListener('click', function() {
-                registerParkingSpot(marker.getPosition().lat(), marker.getPosition().lng());
-            });
-        });
-    } else {
-        alert("Geolocation is not supported by this browser.");
-    }
+			// Add event listener to the "Register Parking Spot" button
+			$("#save-location-btn").click(function() {
+				saveLocation(marker.getPosition());
+			});
+		});
+	} else {
+		alert("Geolocation is not supported by this browser.");
+	}
 }
-function registerParkingSpot(lat, lng) {
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-            if (xhr.status === 200) {
-                alert('Parking spot registered successfully!');
-            } else {
-                alert('Error registering parking spot.');
-            }
-        }
-    };
-    xhr.open('POST', 'save_location.php', true);
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.send('lat=' + lat + '&lng=' + lng);
+function saveLocation(position) {
+	$.ajax({
+		url: "save_location.php",
+		type: "POST",
+		data: {
+			lat: position.lat(),
+			lng: position.lng()
+		},
+		success: function(response) {
+			alert("Location saved successfully.");
+		},
+		error: function(xhr, status, error) {
+			alert("Error saving location: " + error);
+		}
+	});
 }
 
 

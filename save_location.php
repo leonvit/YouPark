@@ -1,7 +1,7 @@
 <?php
 // get the marker coordinates from the query string
-$lat = $_GET['lat'];
-$lng = $_GET['lng'];
+$lat = $_POST['lat'];
+$lng = $_POST['lng'];
 
 // connect to the database
 $servername = "server12.cretaforce.gr";
@@ -27,3 +27,4 @@ if ($conn->query($sql) === TRUE) {
 
 $conn->close();
 ?>
+
