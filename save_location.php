@@ -16,15 +16,20 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// insert the marker coordinates into the database
-$sql = "INSERT INTO coordinates (longitude, latitude) VALUES ('$lng', '$lat')";
+// prepare and bind the insert statement
+$stmt = $conn->prepare("INSERT INTO coordinates (longitude, latitude) VALUES (?, ?)");
+$stmt->bind_param("dd", $lng, $lat);
 
-if ($conn->query($sql) === TRUE) {
+// execute the insert statement
+if ($stmt->execute()) {
     echo "Location saved successfully";
 } else {
-    echo "Error: " . $sql . "<br>" . $conn->error;
+    echo "Error: " . $stmt->error;
 }
 
+// close the statement and connection
+$stmt->close();
 $conn->close();
+
 ?>
 
