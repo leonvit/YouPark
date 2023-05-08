@@ -29,7 +29,7 @@
 
 			// Add event listener to the "Register Parking Spot" button
 			$("#save-location-btn").click(function() {
-				saveLocation(marker.getPosition());
+				saveLocation(myLatLng);
 			});
 		});
 	} else {
@@ -39,10 +39,11 @@
 function saveLocation(position) {
 	$.ajax({
 		url: "save_location.php",
-		type: "GET",
+		type: "POST",
+
 		data: {
-			lat: position.lat(),
-			lng: position.lng()
+			lat: position.lat,
+			lng: position.lng
 		},
 		success: function(response) {
 			alert("Location saved successfully.");
@@ -51,6 +52,8 @@ function saveLocation(position) {
 			alert("Error saving location: " + error);
 		}
 	});
+	console.log(position.lat)
+		console.log(position.lng)
 }
 
 

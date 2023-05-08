@@ -1,7 +1,10 @@
 <?php
 // get the marker coordinates from the query string
-$lat = $_POST['lat'];
-$lng = $_POST['lng'];
+$lat = floatval($_POST['lat']);
+$lng = floatval($_POST['lng']);
+
+
+
 
 // connect to the database
 $servername = "server12.cretaforce.gr";
@@ -16,7 +19,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// prepare and bind the insert statement
+
 $stmt = $conn->prepare("INSERT INTO coordinates (longitude, latitude) VALUES (?, ?)");
 $stmt->bind_param("dd", $lng, $lat);
 
