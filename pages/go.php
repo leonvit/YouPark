@@ -53,76 +53,70 @@ $username = $_SESSION['username'];
   <div class="container text-center"><br>
       <button class="btn btn-primary btn-lg " id="save-location-btn">Register Parking Spot</button></div>
   <script>
+function initMap() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      var myLatLng = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      };
 
-      function initMap() {
-	if (navigator.geolocation) {
-		navigator.geolocation.getCurrentPosition(function(position) {
-			var myLatLng = {
-				lat: position.coords.latitude,
-				lng: position.coords.longitude
-			};
-
-			var map = new google.maps.Map(document.getElementById('map'), {
-				center: myLatLng,
-				zoom: 18,
+      var map = new google.maps.Map(document.getElementById('map'), {
+        center: myLatLng,
+        zoom: 18,
         disableDefaultUI: true
-        
-			});
+      });
 
-			var marker = new google.maps.Marker({
-				position: myLatLng,
-				map: map,
-				title: 'My Location'
-			});
+      var marker = new google.maps.Marker({
+        position: myLatLng,
+        map: map,
+        title: 'My Location'
+      });
 
-			// Add event listener to the "Register Parking Spot" button
-			$("#save-location-btn").click(function() {
-				saveLocation(myLatLng);
-			});
-		});
-	} else {
-		alert("Geolocation is not supported by this browser.");
-	}
+      // Add event listener to the "Register Parking Spot" button
+      document.getElementById('save-location-btn').addEventListener('click', function() {
+        saveLocation(myLatLng);
+      });
+    });
+  } else {
+    alert("Geolocation is not supported by this browser.");
+  }
 }
-function saveLocation(position) {
-	$.ajax({
-		url: "/php/save_location.php",
-		type: "POST",
 
-		data: {
-			lat: position.lat,
-			lng: position.lng,
-      exp: document.getElementById('minutesSlider').value,
-      usr: "<?php echo $username; ?>"
-		},
-		success: function(response) {
+function saveLocation(position) {
+  var xhr = new XMLHttpRequest();
+  var url = "/php/save_location.php";
+  var params = "lat=" + position.lat + "&lng=" + position.lng + "&exp=" + document.getElementById('minutesSlider').value + "&usr=<?php echo $username; ?>";
+
+  xhr.open("POST", url, true);
+  xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+      var response = xhr.responseText;
       console.log(response);
-      if (response=="Location saved successfully") {
+      if (response == "Location saved successfully") {
         console.log("Redirect not Working");
-        
         window.location.href = "go_wait.php?lat=" + position.lat + "&lng=" + position.lng;
       }
-			
+    }
+  };
 
-		},
-		error: function(xhr, status, error) {
-			alert("Error saving location: " + error);
-		}
-	});
+  xhr.onerror = function() {
+    alert("Error saving location: " + xhr.statusText);
+  };
 
+  xhr.send(params);
 }
 
+var minutesSlider = document.getElementById('minutesSlider');
+var selectedMinutes = document.getElementById('selectedMinutes');
+var submitBtn = document.getElementById('submitBtn');
 
+minutesSlider.addEventListener('input', function() {
+  selectedMinutes.innerText = minutesSlider.value + " minutes";
+});
 
-
-
-    const minutesSlider = document.getElementById('minutesSlider');
-    const selectedMinutes = document.getElementById('selectedMinutes');
-    const submitBtn = document.getElementById('submitBtn');
-
-    minutesSlider.addEventListener('input', function() {
-      selectedMinutes.innerText = minutesSlider.value+ " minutes";
-    });
   </script>
   
 
