@@ -79,7 +79,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             $cookieHttpOnly = true; // Enable the HTTP-only flag
                             $cookiePath = '/'; // Set the cookie path as per your requirements
 
-                            
                             setcookie($cookieName, $cookieValue, $cookieExpiration, $cookiePath, null, $cookieSecure, $cookieHttpOnly);
                             // Redirect user to home page
                             header("location: /");
@@ -126,15 +125,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                     <div class="form-group">
                         <label for="username">Username:</label>
-                        <input type="text"                         class="form-control <?php echo (!empty($username_err)) ? 'is-invalid' : ''; ?>"
-                        id="username" name="username" value="<?php echo $username; ?>">
+                        <input type="text" class="form-control <?php echo (!empty($username_err)) ? 'is-invalid' : ''; ?>" id="username" name="username" value="<?php echo $username; ?>">
                         <span class="invalid-feedback"><?php echo $username_err; ?></span>
                     </div>
                     <div class="form-group">
                         <label for="password">Password:</label>
-                        <input type="password"
-                               class="form-control <?php echo (!empty($password_err)) ? 'is-invalid' : ''; ?>"
-                               id="password" name="password">
+                        <input type="password" class="form-control <?php echo (!empty($password_err)) ? 'is-invalid' : ''; ?>" id="password" name="password">
                         <span class="invalid-feedback"><?php echo $password_err; ?></span>
                     </div>
                     <div class="form-group">
@@ -142,12 +138,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                     <p>Don't have an account? <a href="register.php">Sign up now</a>.</p>
                     <p><a href="forgot.php">Forgot Password?</a></p>
-
                 </form>
                 <?php if (!empty($login_err)) { ?>
                 <div class="alert alert-danger mt-3"><?php echo $login_err; ?></div>
-                 <?php } ?>
-
+                <?php } ?>
             </div>
         </div>
     </div>
@@ -155,4 +149,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
-
