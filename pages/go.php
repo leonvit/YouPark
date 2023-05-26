@@ -95,9 +95,7 @@ function saveLocation(position) {
     if (xhr.readyState == 4 && xhr.status == 200) {
       var response = xhr.responseText;
       console.log(response);
-      if (response == "Location saved successfully") {
-        console.log("Redirect not Working");
-        window.location.href = "go_wait.php?lat=" + position.lat + "&lng=" + position.lng;
+      window.location.href = "go_wait.php?lat=" + position.lat + "&lng=" + position.lng;
       }
     }
   };
