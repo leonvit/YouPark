@@ -21,3 +21,4 @@ if (!isLoggedIn() && isset($_COOKIE['YouParkCookie'])) {
     $_SESSION['username'] = $token; // Implement this function to retrieve the associated username
 }
 ?>
+
