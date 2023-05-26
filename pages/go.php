@@ -1,7 +1,7 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'] . '/php/remember.php';
 redirectIfNotLoggedIn();
-$apiKey = "YOUR_API_KEY"; // Replace with your own Google Maps API key
+$apiKey = "AIzaSyAKcsXA7Bi1x67KN5FgN10SuyIrzdh2EQM";
 $username = $_SESSION['username'];
 ?>
 
