@@ -1,7 +1,7 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'] . '/php/remember.php';
 redirectIfNotLoggedIn();
-$apiKey = "AIzaSyAKcsXA7Bi1x67KN5FgN10SuyIrzdh2EQM";
+$apiKey = "YOUR_API_KEY"; // Replace with your own Google Maps API key
 $username = $_SESSION['username'];
 ?>
 
@@ -54,7 +54,7 @@ $username = $_SESSION['username'];
   <!-- Bootstrap JavaScript -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=<?php echo $apiKey; ?>"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=<?php echo $apiKey; ?>&callback=initMap" async defer></script>
 
   <script>
     function initMap() {
