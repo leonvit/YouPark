@@ -144,9 +144,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <p><a href="forgot.php">Forgot Password?</a></p>
 
                 </form>
-                <?php if (!empty($login_err)): ?>
-                    <div class="alert alert-danger mt-3"><?php echo $login_err; ?></div>
-                <?php endif; ?>
+                <?php if (!empty($login_err)) { ?>
+                <div class="alert alert-danger mt-3"><?php echo $login_err; ?></div>
+                 <?php } ?>
+
             </div>
         </div>
     </div>
