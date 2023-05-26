@@ -96,7 +96,10 @@ function saveLocation(position) {
       usr: "<?php echo $username; ?>"
 		},
 		success: function(response) {
+      console.log(response);
       if (response=="Location saved successfully") {
+        console.log("Redirect not Working");
+        
         window.location.href = "go_wait.php?lat=" + position.lat + "&lng=" + position.lng;
       }
 			
@@ -106,8 +109,7 @@ function saveLocation(position) {
 			alert("Error saving location: " + error);
 		}
 	});
-	console.log(position.lat)
-		console.log(position.lng)
+
 }
 
 
