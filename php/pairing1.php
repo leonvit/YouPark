@@ -32,6 +32,9 @@ if ($result) {
         // Check if the Completed column is true
         if ($row['Completed'] == 1) {
             echo "success";
+            $stmt = $conn->prepare("UPDATE coordinates SET Completed = 0 WHERE longitude = ? AND latitude = ?");
+            $stmt->bind_param("dd", $lng, $lat);
+            $stmt->execute();
         }
     }
 }
