@@ -155,7 +155,10 @@ $conn->close();
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4 && xhr.status === 200) {
             // Handle the response
-            window.location.href = "/pages/search_success.php";
+            const urlParams = new URLSearchParams(window.location.search);
+            const destinationLat = urlParams.get("lat");
+            const destinationLng = urlParams.get("lng");
+            window.location.href = "/pages/search_success1.php?lat=" + destinationLat + "&lng=" + destinationLng;
         }
     };
 
