@@ -132,15 +132,7 @@ $conn->close();
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
-                // Row deleted successfully
-                var response = this.responseText;
-                if (response === 'success') {
-                    window.location.replace("go.php");
-
-                } else {
-                    // Display error message
-                    document.getElementById('error').innerHTML = '<div class="alert alert-danger text-center" role="alert"><i class="bi bi-exclamation-circle-fill me-2"></i>An error occurred while deleting the row.</div>';
-                }
+                window.location.replace("go.php");
             }
         };
         xmlhttp.open("GET", "/php/delete_row.php?lat=<?php echo $lat ?>&lng=<?php echo $lng ?>", true);
