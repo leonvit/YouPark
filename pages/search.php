@@ -56,6 +56,7 @@ $username = $_SESSION['username'];
     }
 
     // Call the PHP script and add markers to the map
+    function coordinates() {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
@@ -73,6 +74,10 @@ $username = $_SESSION['username'];
     };
     xhttp.open("GET", "/php/get_location.php", true);
     xhttp.send();
+  }
+    coordinates()
+    setInterval(coordinates, 2000);
+
   </script>
 </body>
 </html>
