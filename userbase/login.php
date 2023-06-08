@@ -117,7 +117,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 <body>
 <div id="navbar"></div>
-  <script src="/nav/nav.js"></script>
+  <script src="/nav/nav2.js"></script>
     <div class="container">
         <div class="row justify-content-center mt-5">
             <div class="col-md-6">

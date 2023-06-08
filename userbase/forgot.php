@@ -18,7 +18,7 @@ if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
 </head>
 <body>
 <div id="navbar"></div>
-  <script src="/nav/nav.js"></script>
+  <script src="/nav/nav2.js"></script>
   
 
 <div class="container text-center">

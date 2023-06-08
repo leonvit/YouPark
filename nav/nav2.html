@@ -1,0 +1,60 @@
+<head>
+  
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">
+        <img src="/images/logo.png" alt="YourPark Logo" height="auto" max-height="50px">
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+     
+    </div>
+  </nav>
+  
+  <script>
+    // Function to check if the current page matches the given URL
+    function isActive(url) {
+      return window.location.pathname === url ? 'active' : '';
+    }
+  </script>
+  
+  <style>
+    .navbar-brand img {
+      height: auto;
+      max-height: 50px;
+    }
+  
+    .navbar-toggler {
+      border: none;
+      background-color: transparent;
+    }
+  
+    .navbar-nav .nav-link {
+      color: blue;
+      font-weight: bold;
+      font-size: 20px;
+      padding: 10px 20px; /* Increase the padding here */
+    }
+  
+    @media (max-width: 767px) {
+      .navbar-nav {
+        margin-top: 10px;
+      }
+  
+      .navbar-toggler {
+        margin-right: 10px;
+      }
+    }
+  </style>
+  
+
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+  </body>

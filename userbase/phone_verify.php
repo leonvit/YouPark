@@ -24,7 +24,7 @@ $acctokens = "ACd7cdded2e659d39942855572efa16bf4:cfcbe0fb4b106c9a62c4d6ba1bdcfd0
 <body>
 
 <div id="navbar"></div>
-  <script src="/nav/nav.js"></script><br>
+  <script src="/nav/nav2.js"></script><br>
     <h1>Phone Number Verification</h1>
 
 <br>
