@@ -1,3 +1,33 @@
+<?php 
+$latitude = floatval($_GET['lat']);
+$longitude = floatval($_GET['lng']);
+include $_SERVER['DOCUMENT_ROOT'] . '/php/remember.php';
+
+$newname = $_SESSION['username'];
+
+
+// Database connection details
+$servername = "server12.cretaforce.gr";
+$username = "tasos_db";
+$password = "4914db6ed8e3559107262d2199ff8fe0";
+$dbname = "tasos_db";
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    // Prepare and execute the update query
+    $stmt = $conn->prepare("UPDATE coordinates SET username2 = ? WHERE longitude = ? AND latitude = ?");
+    $stmt->bind_param("sdd", $newname, $longitude, $latitude);
+    $stmt->execute();
+    $stmt->close();
+    $conn->close();
+
+
+?>
+
 <!DOCTYPE html>
 <html>
 <head>

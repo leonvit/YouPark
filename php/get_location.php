@@ -11,8 +11,8 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 
-// Retrieve the coordinates from the database
-$sql = "SELECT latitude, longitude FROM coordinates";
+// Retrieve the coordinates from the database where username2 is NULL
+$sql = "SELECT latitude, longitude FROM coordinates WHERE username2 IS NULL";
 $result = $conn->query($sql);
 
 // Format the coordinates into an array

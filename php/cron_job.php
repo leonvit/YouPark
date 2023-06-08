@@ -1,30 +1,32 @@
 <?php
-$expirationDate = date('Y-m-d'); // Set the expiration date you want to delete rows for
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 // Connect to the database
 $servername = "server12.cretaforce.gr";
-$db_username = "tasos_db";
+$username = "tasos_db";
 $password = "4914db6ed8e3559107262d2199ff8fe0";
 $dbname = "tasos_db";
 
-$conn = new mysqli($servername, $db_username, $password, $dbname);
+$conn = new mysqli($servername, $username, $password, $dbname);
 
 // Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Prepare the SQL statement to delete rows with the specified expiration date
-$stmt = $conn->prepare("DELETE FROM coordinates WHERE expiration = ?");
-$stmt->bind_param("s", $expirationDate);
+// Get the current timestamp
+$currentTimestamp = time();
 
-// Execute the statement
-if ($stmt->execute()) {
-    echo "Rows deleted successfully.";
-} else {
-    echo "Error occurred while deleting rows.";
-}
+// Delete expired locations
+$deleteStmt = $conn->prepare("DELETE FROM coordinates WHERE expiration < ?");
+$deleteStmt->bind_param("i", $currentTimestamp);
+$deleteStmt->execute();
+$deleteStmt->close();
 
-$stmt->close();
+// Close the connection
 $conn->close();
+
+echo "Expired locations deleted successfully";
 ?>

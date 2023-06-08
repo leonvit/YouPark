@@ -57,6 +57,9 @@ $username = $_SESSION['username'];
   <script src="https://maps.googleapis.com/maps/api/js?key=<?php echo $apiKey; ?>&callback=initMap" async defer></script>
 
   <script>
+    // Declare a variable to store the saveLocation function reference
+    var saveLocationFunc;
+
     function initMap() {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
@@ -77,10 +80,20 @@ $username = $_SESSION['username'];
             title: 'My Location'
           });
 
+          // Check if the saveLocation function is already assigned
+          if (!saveLocationFunc) {
+            // Assign the saveLocation function to the variable
+            saveLocationFunc = function () {
+              // Disable the button to prevent multiple clicks
+              this.disabled = true;
+
+              // Save the location
+              saveLocation(myLatLng);
+            };
+          }
+
           // Add event listener to the "Register Parking Spot" button
-          document.getElementById('save-location-btn').addEventListener('click', function () {
-            saveLocation(myLatLng);
-          });
+          document.getElementById('save-location-btn').addEventListener('click', saveLocationFunc);
         });
       } else {
         alert("Geolocation is not supported by this browser.");
