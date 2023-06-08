@@ -1,4 +1,31 @@
-<!-- navigation.html -->
+<head>
+  <style>
+    .top-right-corner {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      display: flex;
+      align-items: center;
+    }
+
+    .badge {
+      border: 2px solid black;
+      padding: 5px 10px;
+      border-radius: 5px;
+      background-color: white;
+      font-size: 24px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+    }
+
+    .badge img {
+      max-height: 30px;
+      margin-left: 6px;
+    }
+  </style>
+</head>
+<body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
       <a class="navbar-brand" href="/">
@@ -59,4 +86,16 @@
       }
     }
   </style>
-  
+  <div class="top-right-corner">
+    <div class="badge" >
+<div id="coinValue"></div>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/5/50/Bitcoin.png" alt="Bitcoin Gold Coin">
+      </div>
+    </div>
+
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+  </body>
