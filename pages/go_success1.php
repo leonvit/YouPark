@@ -9,11 +9,10 @@
 <body>
 <div id="navbar"></div>
   <script src="/nav/nav.js"></script><br>
-  <div class="container-fluid d-flex flex-column justify-content-center align-items-center vh-100">
+  <div class="text-center">
     <h1 class="text-center">Waiting for the driver...</h1>
     <img src="https://i.gifer.com/origin/34/34338d26023e5515f6cc8969aa027bca_w200.gif" alt="Waiting for the driver" class="img-fluid">
-  </div>
-
+</div>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
