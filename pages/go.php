@@ -46,7 +46,7 @@ $username = $_SESSION['username'];
         <h4 id="selectedMinutes" class="text-center">5 minutes</h4>
       </div>
       <div class="container text-center"><br>
-        <button class="btn btn-primary btn-lg" id="save-location-btn">Register Parking Spot</button>
+        <button class="btn btn-primary btn-lg" id="save-location-btn">Register Parking Spot (+50 COINS)</button>
       </div>
     </div>
   </div>

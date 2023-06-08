@@ -20,13 +20,13 @@ if ($conn->connect_error) {
 $currentTimestamp = time();
 
 // Delete expired locations
-$deleteStmt = $conn->prepare("DELETE FROM coordinates WHERE expiration < ?");
-$deleteStmt->bind_param("i", $currentTimestamp);
+$deleteStmt = $conn->prepare("DELETE FROM coordinates WHERE expiration < ? AND (Completed = 1 AND Completed2 = 1 OR (expiration > ? AND (Completed IS NOT NULL OR username2 IS NOT NULL OR Completed2 IS NOT NULL)))");
+$deleteStmt->bind_param("ii", $currentTimestamp, ($currentTimestamp + 1200)); // Add 20 minutes (1200 seconds) to the current timestamp
 $deleteStmt->execute();
 $deleteStmt->close();
 
 // Close the connection
 $conn->close();
 
-echo "Expired locations deleted successfully";
+echo "Expired locations and specified conditions deleted successfully";
 ?>
