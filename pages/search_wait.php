@@ -124,9 +124,9 @@ $conn->close();
     <h3 id='countdownClock' class="countdown-clock"></h3>
 </div><br>
 <div class="container text-center">
-    <button class="btn btn-primary" onclick="requestPark()">Park There</button>
+    <button class="btn btn-primary" onclick="requestPark()">Park There (-50 COINS)</button>
 </div>
-
+<div id="error"></div>
 <script>
     var countdownDate = new Date(<?php echo $expiration ?> * 1000).getTime();
     var countdownClock = document.getElementById('countdownClock');
@@ -150,17 +150,24 @@ $conn->close();
 
     function requestPark() {
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", "/php/pairing2.php", true);
+    xhr.open("POST", "/php/pairing2b.php", true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4 && xhr.status === 200) {
+            if (xhr.responseText != "error: Insufficient coin" && xhr.responseText !='error: Insufficient coins') {
+
             // Handle the response
             const urlParams = new URLSearchParams(window.location.search);
             const destinationLat = urlParams.get("lat");
             const destinationLng = urlParams.get("lng");
             window.location.href = "/pages/search_success1.php?lat=" + destinationLat + "&lng=" + destinationLng;
+            }
+            else {
+                document.getElementById("error").innerHTML = "<div class=\"alert alert-danger text-center\" role=\"alert\"><i class=\"bi bi-exclamation-circle-fill me-2\"></i>"+xhr.responseText+"</div>";}
+
+            }
+        
         }
-    };
 
     // Serialize the data object as URL-encoded parameters
     var data = new URLSearchParams();
@@ -168,7 +175,7 @@ $conn->close();
     data.append('lng', <?php echo $lng ?>);
 
     xhr.send(data.toString());
-}
+};
 
 
     function initMapSpot() {

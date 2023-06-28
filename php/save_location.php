@@ -38,14 +38,7 @@ if ($insertStmt->execute()) {
 } else {
     echo "Error: " . $insertStmt->error;
 }
-$coins=50;
-$stmt = $conn->prepare("UPDATE users SET coins = coins + ? WHERE username = ?");
-$stmt->bind_param("is", $coins, $usr);
-$stmt->execute();
-if (!$stmt->execute()) {
-    echo "Error: " . $stmt->error;
-}
-$stmt->close();
+
 
 
 // close the statements and connection

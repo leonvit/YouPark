@@ -41,11 +41,38 @@ $username = $_SESSION['username'];
   <script src="https://maps.googleapis.com/maps/api/js?key=<?php echo $apiKey; ?>"></script>
   <script>
     // Initialize the map
-    var map = new google.maps.Map(document.getElementById('map'), {
-      center: { lat: 37.9838, lng: 23.7275 },
-      zoom: 10,
-      disableDefaultUI: true
-    });
+    var map;
+    var marker;
+
+    function initMap() {
+      // Get user's current location
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          var userLocation = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          };
+
+          // Create the map centered on the user's location
+          map = new google.maps.Map(document.getElementById('map'), {
+            center: userLocation,
+            zoom: 10,
+            disableDefaultUI: true,
+            gestureHandling: 'none' // Disable map zooming
+          });
+
+          // Place a marker at the user's location
+         
+
+          // Call the PHP script and add markers to the map
+          coordinates();
+          setInterval(coordinates, 2000);
+        });
+      } else {
+        // Handle geolocation error
+        console.error("Geolocation is not supported by this browser.");
+      }
+    }
 
     // Define a function to handle marker click events
     function markerClickHandler(marker, coord) {
@@ -57,27 +84,27 @@ $username = $_SESSION['username'];
 
     // Call the PHP script and add markers to the map
     function coordinates() {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-      if (this.readyState == 4 && this.status == 200) {
-        var coordinates = JSON.parse(this.responseText);
-        console.log(coordinates); // Log the coordinates to the console
-        coordinates.forEach(function(coord) {
-          var marker = new google.maps.Marker({
-            position: new google.maps.LatLng(coord[0], coord[1]),
-            map: map
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          var coordinates = JSON.parse(this.responseText);
+          console.log(coordinates); // Log the coordinates to the console
+          coordinates.forEach(function(coord) {
+            var marker = new google.maps.Marker({
+              position: new google.maps.LatLng(coord[0], coord[1]),
+              map: map
+            });
+            // Add click event listener to the marker
+            markerClickHandler(marker, coord);
           });
-          // Add click event listener to the marker
-          markerClickHandler(marker, coord);
-        });
-      }
-    };
-    xhttp.open("GET", "/php/get_location.php", true);
-    xhttp.send();
-  }
-    coordinates()
-    setInterval(coordinates, 2000);
+        }
+      };
+      xhttp.open("GET", "/php/get_location.php", true);
+      xhttp.send();
+    }
 
+    // Initialize the map
+    initMap();
   </script>
 </body>
 </html>

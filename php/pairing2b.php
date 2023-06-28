@@ -19,8 +19,29 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$stmt = $conn->prepare("UPDATE coordinates SET Completed = 1 WHERE longitude = ? AND latitude = ?");
-$stmt->bind_param("dd", $lng, $lat);
+// Retrieve the number of coins for the username
+$stmt = $conn->prepare("SELECT coins FROM users WHERE username = ?");
+$stmt->bind_param("s", $user);
+$stmt->execute();
+$stmt->bind_result($coins);
+$stmt->fetch();
+$stmt->close();
+
+$response = '';
+
+if ($coins >= 50) {
+    // Subtract 50 coins from the user's balance
+    $newCoins = $coins - 50;
+    
+    $stmt = $conn->prepare("UPDATE users SET coins = ? WHERE username = ?");
+    $stmt->bind_param("is", $newCoins, $user);
+    $stmt->execute();
+    
+    $stmt->close();
+    
+    // Execute the statement
+    $stmt = $conn->prepare("UPDATE coordinates SET Completed = 1 WHERE longitude = ? AND latitude = ?");
+    $stmt->bind_param("dd", $lng, $lat);
     
     if ($stmt->execute()) {
         $response = 'success'; // Row updated successfully
@@ -29,6 +50,11 @@ $stmt->bind_param("dd", $lng, $lat);
     }
     
     $stmt->close();
+} else {
+    $response = 'error: Insufficient coins'; // Error: Insufficient coins
+}
+
+$conn->close();
 
 echo $response;
 ?>

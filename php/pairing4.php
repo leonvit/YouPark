@@ -1,4 +1,6 @@
 <?php
+include $_SERVER['DOCUMENT_ROOT'] . '/php/remember.php';
+$usr = $_SESSION['username'];
 // Retrieve the latitude and longitude values from POST
 $lat = floatval($_POST['lat']);
 $lng = floatval($_POST['lng']);
@@ -26,7 +28,19 @@ if ($stmt->execute()) {
     $response = 'error'; // Error occurred while updating the row
 }
 
+
+$coins=50;
+$addition = $conn->prepare("UPDATE users SET coins = coins + ? WHERE username = ?");
+$addition->bind_param("is", $coins, $usr);
+$addition->execute();
+if (!$stmt->execute()) {
+    echo "Error: " . $addition->error;
+}
+
+
+$addition->close();
 $stmt->close();
+
 $conn->close();
 
 echo $response;

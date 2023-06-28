@@ -152,6 +152,7 @@ function fetchData() {
             const destinationLng = urlParams.get("lng");
             window.location.href = "/pages/go_success1.php?lat=" + destinationLat + "&lng=" + destinationLng;
       }
+      
     }
   };
 
