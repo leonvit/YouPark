@@ -48,7 +48,7 @@ $username = $_SESSION['username'];
   </head>
   <body>
     <div id="navbar"></div>
-    <script src="/nav/nav.js"></script>
+    <script src="/nav/nav3.js"></script>
 
     <br><br>
     <div class="container-fluid">
