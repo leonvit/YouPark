@@ -118,12 +118,7 @@ function verifyCode() {
       if (xhr.readyState === 4 && xhr.status === 200) {
         var response = JSON.parse(xhr.responseText);
         if (response.success) {
-          // Log the user in by setting session variables
-          <?php
-          $_SESSION["loggedin"] = true;
-          $_SESSION["username"] = $username; // Assuming $username contains the logged-in user's username
-          ?>
-          window.location.replace("/");
+          window.location.replace("/userbase/login.php");
 
         } else {
           document.getElementById("error").innerHTML = "<div class=\"alert alert-danger text-center\" role=\"alert\"><i class=\"bi bi-exclamation-circle-fill me-2\"></i>"+response.error+"</div>";
@@ -147,9 +142,12 @@ function verifyCode() {
 
   
 }
+
+
+
+
     
-</script>
+  </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script></body>
 </html>
