@@ -59,8 +59,8 @@ if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
 				<label for="car-type">Car Type:</label>
 				<select class="form-control" id="car-type" name="car-type" required>
 					<option value="">Select Car Type</option>
-					<option value="small-car">Small Car</option>
-					<option value="medium-car">Medium Car</option>
+					<option value="smart">Smart</option>
+					<option value="polo">Polo</option>
 					<option value="jeep">Jeep</option>
 				</select>
 			</div>

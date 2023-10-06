@@ -105,20 +105,22 @@ $conn->close();
             font-weight: bold;
         }
 
-        #mapSpot {
+        #map {
             height: 200px;
             width: 100%;
             margin-top: 20px;
         }
     </style>
 </head>
-<body onload=initMapSpot()>
+<body onload=initMap()>
 <div id="navbar"></div>
 <script src="/nav/nav.js"></script>
 <br>
 <div id='error' class="text-center"><?php echo $error ?></div>
-<h1 class="text-center"><?php echo $usr_username ?>'s Parking Spot</h1><br>
-<div id="mapSpot"></div><br>
+<h1 class="text-center">Closest Spot</h1><br>
+<h2 id="distance" class="text-center"></h2>
+
+<div id="map"></div><br>
 <h3 class="text-center">Remaining Time:</h3>
 <div class="countdown-container">
     <h3 id='countdownClock' class="countdown-clock"></h3>
@@ -128,6 +130,29 @@ $conn->close();
 </div>
 <div id="error"></div>
 <script>
+    function calculateDistance(lat1, lon1, lat2, lon2) {
+    const earthRadius = 6371 * 1000; // Radius of the Earth in meters (multiply by 1000 for meters)
+
+    // Convert latitude and longitude from degrees to radians
+    const lat1Rad = (lat1 * Math.PI) / 180;
+    const lon1Rad = (lon1 * Math.PI) / 180;
+    const lat2Rad = (lat2 * Math.PI) / 180;
+    const lon2Rad = (lon2 * Math.PI) / 180;
+
+    // Haversine formula
+    const dLat = lat2Rad - lat1Rad;
+    const dLon = lon2Rad - lon1Rad;
+
+    const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(lat1Rad) * Math.cos(lat2Rad) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+    // Calculate the distance in meters
+    const distance = earthRadius * c;
+
+    return distance;
+}
     var countdownDate = new Date(<?php echo $expiration ?> * 1000).getTime();
     var countdownClock = document.getElementById('countdownClock');
 
@@ -177,22 +202,89 @@ $conn->close();
     xhr.send(data.toString());
 };
 
+function initMap() {
+    // Get the user's current location
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            const userLocation = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude,
+            };
+            const parkingspot = { lat:<?php echo $lat?>, lng:<?php echo $lng?> };
 
-    function initMapSpot() {
-        var parkingLatLng = {lat: <?php echo $lat ?>, lng: <?php echo $lng ?>};
+            
+            const centerLat = (userLocation.lat + parkingspot.lat) / 2;
+            const centerLng = (userLocation.lng + parkingspot.lng) / 2;
 
-        var mapSpot = new google.maps.Map(document.getElementById('mapSpot'), {
-            center: parkingLatLng,
-            zoom: 18,
-            disableDefaultUI: true
+            // Calculate the distance between the two locations using the Haversine formula
+            const userLat = userLocation.lat;
+            const userLng = userLocation.lng;
+            const parkingLat = parkingspot.lat;
+            const parkingLng = parkingspot.lng;
+
+            // Calculate the distance in kilometers
+            const distance = calculateDistance(userLat, userLng, parkingLat, parkingLng);
+                        
+            // Inside your initMap() function, after calculating the distance
+            const distanceElement = document.getElementById('distance'); // Replace 'distance' with the ID of your HTML element
+            const distanceInMeters = distance.toFixed(2); // Round the distance to two decimal places
+            distanceElement.textContent = `Distance: ${distanceInMeters} meters`;
+
+            // Calculate the zoom level based on the distance (adjust this as needed)
+            const zoomLevel = Math.floor(15 - Math.log2(distance / 10)); // Adjust the divisor (10) as needed for desired zoom level
+
+            
+            
+            
+            
+            // Create a map centered at the user's location
+            const map = new google.maps.Map(document.getElementById("map"), {
+                zoom: zoomLevel,
+                 center: { lat: centerLat, lng: centerLng },
+            });
+            // Create markers for user's location and the parking spot
+            const userMarker = new google.maps.Marker({
+                position: userLocation,
+                map: map,
+                title: "Your Location",
+            });
+
+            const parkingMarker = new google.maps.Marker({
+                position: parkingspot,
+                map: map,
+                title: "Parking",
+            });
+
+            // Create a DirectionsService object
+            const directionsService = new google.maps.DirectionsService();
+            const directionsDisplay = new google.maps.DirectionsRenderer({
+                map: map,
+                panel: document.getElementById("directionsPanel"),
+            });
+
+            // Create a LatLngBounds object to contain both markers
+            
+
+            // Create a request for directions
+            const request = {
+                origin: userLocation,
+                destination: parkingspot,
+                travelMode: google.maps.TravelMode.DRIVING, // You can change this to WALKING, BICYCLING, etc.
+            };
+
+            // Calculate directions
+            directionsService.route(request, function (response, status) {
+                if (status === google.maps.DirectionsStatus.OK) {
+                    directionsDisplay.setDirections(response);
+                } else {
+                    console.error("Directions request failed due to " + status);
+                }
+            });
         });
-
-        var marker = new google.maps.Marker({
-            position: parkingLatLng,
-            map: mapSpot,
-            title: 'Parking Spot'
-        });
+    } else {
+        console.error("Geolocation is not supported by your browser.");
     }
+}
 
     // Invoke the function to initialize the map
 </script>

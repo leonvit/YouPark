@@ -63,7 +63,7 @@ $username = $_SESSION['username'];
             <div class="card text-center">
               <img src="images/search.png" alt="Your first image description" class="card-img-top img-fluid mx-auto" style="max-width: 100px;">
               <div class="card-body">
-                <h4 class="card-title">Search for PARKING</h4>
+                <h4 class="card-title">Search</h4>
               </div>
             </div>
           </a>
@@ -74,7 +74,7 @@ $username = $_SESSION['username'];
             <div class="card text-center">
               <img src="images/go.png" alt="Your first image description" class="card-img-top img-fluid mx-auto" style="max-width: 100px;">
               <div class="card-body">
-                <h4 class="card-title">Register your SPOT</h4>
+                <h4 class="card-title">I'm leaving</h4>
               </div>
             </div>
           </a>

@@ -102,7 +102,10 @@ $conn->close();
 <div class="countdown-container">
 <h3 id='countdownClock' class="countdown-clock"></h3>
 </div><br>
-<div class="container text-center"><button class="btn btn-danger" onclick="deleteRow()">Stop Waiting</button></div>
+<div class="container text-center">
+    <button class="btn btn-danger" onclick="deleteRow()">Stop Waiting</button>
+
+</div>
 
 <script>
     var countdownDate = new Date(<?php echo $expiration ?> * 1000).getTime();
@@ -115,6 +118,9 @@ $conn->close();
         if (distance < 0) {
             clearInterval(x);
             countdownClock.innerHTML = 'EXPIRED';
+            window.location.href = "/pages/go.php";
+
+  
         } else {
             var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
