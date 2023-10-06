@@ -1,10 +1,17 @@
 <?php
-include $_SERVER['DOCUMENT_ROOT'] . '/php/remember.php';
-redirectIfNotLoggedIn();
+session_start(); // Start the session at the beginning of your script
+
+
+// Check if the user is logged in
+if (!isset($_SESSION['username'])) {
+    // If the user is not logged in, redirect to the login page
+    header('Location: /userbase/userpath.php'); // Change this to your login page URL
+    exit(); // Terminate the script after redirect
+}
+
 $apiKey = "AIzaSyAKcsXA7Bi1x67KN5FgN10SuyIrzdh2EQM";
 $username = $_SESSION['username'];
 ?>
-
 <!DOCTYPE html>
 <html>
   <head>
