@@ -89,49 +89,70 @@ function updateCurrentAddress() {
 updateCurrentAddress();
 
     // Function to calculate the distance between two sets of coordinates (in meters)
-function calculateDistance(lat1, lon1, lat2, lon2) {
-  const R = 6371; // Earth's radius in kilometers
-  const dLat = (lat2 - lat1) * (Math.PI / 180);
-  const dLon = (lon2 - lon1) * (Math.PI / 180);
+    function calculateDistance(lat1, lon1, lat2, lon2) {
+  // Convert latitude and longitude from degrees to radians
+  const deg2rad = (degrees) => {
+    return degrees * (Math.PI / 180);
+  };
+
+  // Radius of the Earth in meters
+  const R = 6371000; // Earth's radius in meters (approximately)
+
+  // Convert latitude and longitude values to radians
+  const radLat1 = deg2rad(lat1);
+  const radLon1 = deg2rad(lon1);
+  const radLat2 = deg2rad(lat2);
+  const radLon2 = deg2rad(lon2);
+
+  // Calculate the differences between the latitudes and longitudes
+  const dLat = radLat2 - radLat1;
+  const dLon = radLon2 - radLon1;
+
+  // Haversine formula
   const a =
-    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(lat1 * (Math.PI / 180)) *
-      Math.cos(lat2 * (Math.PI / 180)) *
-      Math.sin(dLon / 2) *
-      Math.sin(dLon / 2);
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(radLat1) * Math.cos(radLat2) * Math.sin(dLon / 2) ** 2;
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  const distance = R * c * 1000; // Convert to meters
+
+  // Calculate the distance in meters
+  const distance = R * c;
+
   return distance;
 }
 
-// Function to find the closest spot to the user's location
-// Function to find the closest spot to the user's location within a 500-meter radius
-// Function to find the closest spot to the user's location within 500 meters
+
+// Function to find the closest spot to the user's location within a list of spots
 function findClosestSpot(userLat, userLon, spots) {
-  if (spots.length === 0) {
-    return null; // No spots available
-  }
-
+  // Initialize variables to store the closest spot and its distance
   let closestSpot = null;
-  let closestDistance = 500; // Initialize with a distance greater than 500 meters
+  let closestDistance = Infinity;
 
+  // Define the maximum allowed distance (500 meters)
+  const maxDistance = 500;
+
+  // Loop through the array of spots
   for (let i = 0; i < spots.length; i++) {
     const spot = spots[i];
-    const distance = calculateDistance(
-      userLat,
-      userLon,
-      spot.latitude,
-      spot.longitude
-    );
+    const spotLat = parseFloat(spot[0]); // Parse latitude as a float
+    const spotLon = parseFloat(spot[1]); // Parse longitude as a float
 
-    if (distance < closestDistance && distance <= 500) {
-      closestSpot = spot;
-      closestDistance = distance;
+    // Calculate the distance between the user and the current spot
+    const distance = calculateDistance(userLat, userLon, spotLat, spotLon);
+
+    // Check if the current spot is within the allowed distance
+    if (distance <= maxDistance) {
+      // If the current spot is closer than the previous closest spot, update the variables
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closestSpot = spot;
+      }
     }
   }
 
   return closestSpot;
 }
+// Function to continuously search for spots until one is found
+// ...
 
 // Function to continuously search for spots until one is found
 function searchForSpots() {
@@ -139,41 +160,45 @@ function searchForSpots() {
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
       var spots = JSON.parse(this.responseText);
-      //console.log(spots); // Log the spots to the console
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
-            const userLocation = {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude,
-            };
-      // Get the user's current location (assuming you have a function for this)
-      var userLat = userLocation.lat; // Replace with your function to get user's latitude
-      var userLon = userLocation.lng; // Replace with your function to get user's longitude
+          const userLocation = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          };
 
-      // Find the closest spot to the user's location
-      var closestSpot = findClosestSpot(userLat, userLon, spots);
+          // Get the user's current location (assuming you have a function for this)
+          var userLat = userLocation.lat;
+          var userLon = userLocation.lng;
+          //console.log(spots);
+          // Find the closest spot to the user's location
+          var closestSpot = findClosestSpot(userLat, userLon, spots);
 
-      if (closestSpot) {
-        // Do something with the closest spot, e.g., display it on the page
-        console.log("Closest spot:", closestSpot);
-        window.location.href = "search_wait.php?lat=" + closestSpot[0] + "&lng=" + closestSpot[1];
+          if (closestSpot) {
+            console.log(closestSpot)
+            // Extract latitude and longitude from closestSpot
+            var closestLat = closestSpot[0];
+            var closestLon = closestSpot[1];
 
-      } else {
-        // No spots found, continue searching
-        searchForSpots();
+            // Redirect to search_wait.php with the closest spot's coordinates
+            window.location.href = "search_wait.php?lat=" + closestLat + "&lng=" + closestLon;
+          } else {
+            // No spots found, continue searching
+            searchForSpots();
+          }
+        });
       }
-      })}}
+    }
   };
   xhttp.open("GET", "/php/get_location.php", true); // Replace with your endpoint to get spots
   xhttp.send();
 }
 
-// Start searching for spots when the page loads
+// ...
+
 window.onload = function () {
   searchForSpots();
 };
-
-
   </script>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAKcsXA7Bi1x67KN5FgN10SuyIrzdh2EQM&libraries=places"></script>
 
