@@ -33,6 +33,8 @@ $username = $_SESSION['username'];
   </div>
 
   <!-- Bootstrap JavaScript -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAKcsXA7Bi1x67KN5FgN10SuyIrzdh2EQM&libraries=places"></script>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script>
@@ -47,7 +49,7 @@ function refreshPage() {
             refreshPage();
         });
 // Wrap your code in an event listener for the 'load' event of the window
-window.addEventListener('load', function () {
+google.maps.event.addDomListener(window, 'load', function () {
   // Your code that uses the 'google' object goes here
   function updateCurrentAddress() {
     var addressElement = document.getElementById("current-address");
@@ -206,7 +208,6 @@ window.onload = function () {
   searchForSpots();
 };
   </script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAKcsXA7Bi1x67KN5FgN10SuyIrzdh2EQM&libraries=places"></script>
 
 </body>
 </html>
