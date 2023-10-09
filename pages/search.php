@@ -3,7 +3,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/php/remember.php';
 redirectIfNotLoggedIn();
 $apiKey = "AIzaSyAKcsXA7Bi1x67KN5FgN10SuyIrzdh2EQM";
 $username = $_SESSION['username'];
-?>
+?>s
 
 <!DOCTYPE html>
 <html>
@@ -188,8 +188,8 @@ function searchForSpots() {
             var closestLon = closestSpot[1];
 
             // Redirect to search_wait.php with the closest spot's coordinates
-            console.log("search_wait.php?lat=" + closestLat + "&lng=" + closestLon);
-            window.location.href = "search_wait.php?lat=" + closestLat + "&lng=" + closestLon;
+            //console.log("search_wait.php?lat=" + closestLat + "&lng=" + closestLon);
+            window.location.href = "/pages/search_wait.php?lat=" + closestLat + "&lng=" + closestLon;
           } else {
             // No spots found, continue searching
             searchForSpots();
