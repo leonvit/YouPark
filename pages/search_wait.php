@@ -2,7 +2,7 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-include $_SERVER['DOCUMENT_ROOT'] . '/php/remember.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/php/remember.php';
 redirectIfNotLoggedIn();
 $apiKey = "AIzaSyAKcsXA7Bi1x67KN5FgN10SuyIrzdh2EQM";
 $username = $_SESSION['username'];
@@ -163,6 +163,8 @@ $conn->close();
         if (distance < 0) {
             clearInterval(x);
             countdownClock.innerHTML = 'EXPIRED';
+            window.location.href = "/";
+
         } else {
             var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
