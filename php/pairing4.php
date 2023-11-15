@@ -1,5 +1,5 @@
 <?php
-include $_SERVER['DOCUMENT_ROOT'] . '/php/remember.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/php/remember.php';
 $usr = $_SESSION['username'];
 // Retrieve the latitude and longitude values from POST
 $lat = floatval($_POST['lat']);

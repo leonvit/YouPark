@@ -28,10 +28,22 @@ $stmt->bind_result($coinCount);
 $stmt->fetch();
 $coins = $coinCount;
 
+// Close the statement
+$stmt->close();
+
+// Add 50 coins to the existing coin count
+$coins += 50;
+
+// Update the user's coin count in the database
+$stmt = $conn->prepare("UPDATE users SET coins = ? WHERE username = ?");
+$stmt->bind_param("ss", $coins, $user);
+$stmt->execute();
+
 // Close the statement and connection
 $stmt->close();
 $conn->close();
 
-// Return the coin value
-echo $coins;
+// Redirect to the root ("/") URL
+header("Location: /");
+exit();
 ?>

@@ -33,6 +33,9 @@ $error = "";
 if ($stmt->num_rows === 0) {
     // No coordinates found in the database
     $error = "<div class=\"alert alert-danger text-center\" role=\"alert\"><i class=\"bi bi-exclamation-circle-fill me-2\"></i>Coordinates not found.</div>";
+    header("Location: /");
+    exit();
+
 } else {
     // Retrieve expiration date and username from the result
     $stmt->bind_result($expiration, $usr_username);

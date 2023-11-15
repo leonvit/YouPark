@@ -1,5 +1,5 @@
 <?php
-include $_SERVER['DOCUMENT_ROOT'] . '/php/remember.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/php/remember.php';
 redirectIfNotLoggedIn();
 
 $lat = floatval($_GET['lat']);

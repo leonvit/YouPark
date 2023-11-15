@@ -1,5 +1,5 @@
 <?php
-include $_SERVER['DOCUMENT_ROOT'] . '/php/remember.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/php/remember.php';
 redirectIfNotLoggedIn();
 $apiKey = "AIzaSyAKcsXA7Bi1x67KN5FgN10SuyIrzdh2EQM";
 

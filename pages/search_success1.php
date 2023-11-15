@@ -1,7 +1,7 @@
 <?php 
 $latitude = floatval($_GET['lat']);
 $longitude = floatval($_GET['lng']);
-include $_SERVER['DOCUMENT_ROOT'] . '/php/remember.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/php/remember.php';
 
 $newname = $_SESSION['username'];
 
@@ -43,14 +43,15 @@ $conn = new mysqli($servername, $username, $password, $dbname);
   </div>
 
   <script>
+    const urlParams = new URLSearchParams(window.location.search);
+      const lat = urlParams.get('lat');
+      const lng = urlParams.get('lng');
     document.addEventListener('DOMContentLoaded', function() {
       const getDirectionsBtn = document.getElementById('getDirectionsBtn');
       const destinationReachedBtn = document.getElementById('destinationReachedBtn');
 
       // Get latitude and longitude from the URL
-      const urlParams = new URLSearchParams(window.location.search);
-      const lat = urlParams.get('lat');
-      const lng = urlParams.get('lng');
+      
 
       // Check if latitude and longitude are present
       if (lat && lng) {
@@ -89,6 +90,35 @@ $conn = new mysqli($servername, $username, $password, $dbname);
         xhr.send(data.toString());
       });
     });
+    function updateLocation() {
+            if ("geolocation" in navigator) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    // Extract latitude and longitude from the position object
+                    const latitude = position.coords.latitude;
+                    const longitude = position.coords.longitude;
+
+                    // Send the data to the PHP script using an XMLHttpRequest
+                    const xhr = new XMLHttpRequest();
+                    xhr.open("POST", "/php/give_live.php", true);
+                    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+                    // Prepare the data to send
+                    const data = `latitude=${lat}&longitude=${lng}&user_lat=${latitude}&user_long=${longitude}`;
+
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState === 4 && xhr.status === 200) {
+                            console.log("Location updated successfully");
+                        }
+                    };
+
+                    // Send the request
+                    xhr.send(data);
+                });
+            }
+        }
+
+        // Call the updateLocation function every 2 seconds
+        setInterval(updateLocation, 2000); 
   </script>
 </body>
 </html>
